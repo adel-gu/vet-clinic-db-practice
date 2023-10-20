@@ -10,6 +10,3 @@ CREATE TABLE animals (
 
 ALTER TABLE animals
 ADD species VARCHAR(100);
-
-UPDATE animals
-SET species = 'unspecified';
