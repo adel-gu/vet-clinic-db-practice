@@ -18,13 +18,6 @@ VALUES (4, 'Devimon', '2017-05-12', 5, true, 11);
 INSERT INTO animals (id, name, date_of_birth, neutered, weight_kg)
 VALUES (5, 'Charmander', '2020-02-08', false, 11);
 
--- id INT NOT NULL,
---     name VARCHAR(100),
---     date_of_birth DATE,
---     escape_attempts INT,
---     neutered BOOLEAN,
---     weight_kg DECIMAL
-
 -- Animal: Her name is Plantmon. She was born on Nov 15th, 2021, and currently weighs -5.7kg. She is neutered and she has tried to escape 2 times.
 INSERT INTO animals
 VALUES (6, 'Plantmon', '2021-11-15', 2, true, 5.7);
@@ -48,3 +41,54 @@ VALUES (10, 'Blossom', '1998-10-13', 3, true, 17);
 -- Animal: His name is Ditto. He was born on May 14th, 2022, and currently weighs 22kg. He is neutered and he has tried to escape 4 times.
 INSERT INTO animals
 VALUES (11, 'Ditto', '2022-05-14', 4, true, 22);
+
+-- Insert the following data into the owners table:
+-- Sam Smith 34 years old.
+INSERT INTO owners (full_name, age)
+VALUES ('Sam Smith', 34);
+
+-- Jennifer Orwell 19 years old.
+INSERT INTO owners (full_name, age)
+VALUES ('Jennifer Orwell', 19);
+
+-- Bob 45 years old.
+INSERT INTO owners (full_name, age)
+VALUES ('Bob', 45);
+
+-- Melody Pond 77 years old.
+INSERT INTO owners (full_name, age)
+VALUES ('Melody Pond', 77);
+
+-- Dean Winchester 14 years old.
+INSERT INTO owners (full_name, age)
+VALUES ('Dean Winchester', 14);
+
+-- Jodie Whittaker 38 years old.
+INSERT INTO owners (full_name, age)
+VALUES ('Jodie Whittaker', 38);
+
+-- species
+INSERT INTO species (name)
+VALUES ('Pokemon');
+INSERT INTO species (name)
+VALUES ('Digimon');
+
+-- Update animals table
+UPDATE animals
+SET species_id = (
+  CASE
+    WHEN name LIKE '%mon' THEN (SELECT id FROM species WHERE name = 'Digimon')
+    ELSE (SELECT id FROM species WHERE name = 'Pokemon')
+  END
+);
+
+UPDATE animals
+SET owner_id = (
+  CASE
+    WHEN name = 'Agumon' THEN (SELECT id FROM owners WHERE full_name = 'Sam Smith')
+    WHEN name IN ('Gabumon', 'Pikachu') THEN (SELECT id FROM owners WHERE full_name = 'Jennifer Orwell')
+    WHEN name IN ('Devimon', 'Plantmon') THEN (SELECT id FROM owners WHERE full_name = 'Bob')
+    WHEN name IN ('Charmander', 'Squirtle', 'Blossom') THEN (SELECT id FROM owners WHERE full_name = 'Melody Pond')
+    WHEN name IN ('Angemon', 'Boarmon') THEN (SELECT id FROM owners WHERE full_name = 'Dean Winchester')
+  END
+)
